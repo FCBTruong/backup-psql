@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barman
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barman
+  template:
+    metadata:
+      labels:
+        app: barman
+    spec:
+      containers:
+      - name: barman
+        image: barman:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 22
+        command: ["tail", "-f", "/dev/null"]
+        volumeMounts:
+        - mountPath: /var/lib/barman
+          name: barman-storage
+        - mountPath: /etc/barman.conf
+          subPath: barman.conf
+          name: barman-config
+      volumes:
+      - name: barman-storage
+        emptyDir: {}
+      - name: barman-config
+        configMap:
+          name: barman-config
