@@ -12,13 +12,14 @@ spec:
       labels:
         app: barman
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       - name: barman
         image: barman:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 22
-        command: ["tail", "-f", "/dev/null"]
         volumeMounts:
         - mountPath: /var/lib/barman
           name: barman-storage

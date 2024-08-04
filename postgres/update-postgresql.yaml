@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+data:
+  postgresql.conf: |
+    # Enable WAL settings
+    wal_level = replica
+    archive_mode = on
+    archive_command = 'cp %p /var/lib/postgresql/data/archive/%f'
+    max_wal_senders = 3
+    wal_keep_segments = 10

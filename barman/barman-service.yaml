@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: barman
+  name: barman-service
+  namespace: default  # Adjust if you're using a different namespace
 spec:
-  type: NodePort
-  ports:
-    - port: 22
-      targetPort: 22
-      nodePort: 30022
   selector:
-    app: barman
+    app: barman  # Ensure this matches the labels on your Barman pod
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+  type: ClusterIP  # This creates a stable internal IP accessible within the cluster
